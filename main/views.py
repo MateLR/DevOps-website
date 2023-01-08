@@ -7,4 +7,4 @@ def index(request):
 
 
 def stat(request):
-    return render(request, 'main/demand.html')
+    return render(request, 'main/demand2.html')
