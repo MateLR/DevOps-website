@@ -3,6 +3,7 @@
 {% block title %}
     Главная страница
 {% endblock %}
-{% block content %}
-    <h1>DevOps инженер</h1>
+    {% load  static %}
+{% block css %}
+    <link rel='stylesheet' href="{% static 'main/css/stylesheet.css' %}">
 {% endblock %}

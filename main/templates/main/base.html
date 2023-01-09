@@ -1,30 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    {% block css %}{% endblock %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-<nav class="container d-flex flex-column flex-md-row justify-content-between">
-    <a class="py-2" href="{% url 'home' %}" aria-label="Product">
-<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M10.9026 1.78378H5.20485C4.76581 1.23514 4.09109 0.883301 3.33379 0.883301C2.01111 0.883301 0.938477 1.95546 0.938477 3.27827C0.938477 4.60109 2.01078 5.67324 3.33379 5.67324C4.09109 5.67324 4.76581 5.32141 5.20485 4.77276H10.9026C14.3046 4.77276 17.0727 7.54013 17.0727 10.942C17.0727 14.3435 14.3049 17.1112 10.9026 17.1112H5.20485C4.76581 16.5626 4.09109 16.2107 3.33379 16.2107C2.01111 16.2107 0.938477 17.2829 0.938477 18.6057C0.938477 19.9285 2.01111 21 3.33379 21C4.09109 21 4.76581 20.6482 5.20485 20.0995H10.9026C15.9531 20.0995 20.0618 15.9914 20.0618 10.9417C20.0618 5.89224 15.9531 1.78378 10.9026 1.78378Z" fill="#FF2C5C"></path>
-<path d="M6.49568 12.4361H9.81738C10.2564 12.9847 10.9311 13.3366 11.6885 13.3366C13.0111 13.3366 14.0838 12.2644 14.0838 10.9416C14.0838 9.61879 13.0115 8.54663 11.6885 8.54663C10.9311 8.54663 10.2564 8.89847 9.81738 9.44711H6.49568C5.67015 9.44711 5.00098 10.1162 5.00098 10.9416C5.00098 11.767 5.67015 12.4361 6.49568 12.4361Z" fill="#FF2C5C"></path>
-</svg>
-    </a>
-    <a class="py-2 d-none d-md-inline-block" href="{% url 'home' %}">Главная</a>
-    <a class="py-2 d-none d-md-inline-block" href="{% url 'demand' %}">Востребованность</a>
-    <a class="py-2 d-none d-md-inline-block" href="{% url 'geo' %}">География</a>
-    <a class="py-2 d-none d-md-inline-block" href="{% url 'skills' %}">Навыки</a>
-    <a class="py-2 d-none d-md-inline-block" href="{% url 'last-vacs' %}">Последние вакансии</a>
-  </nav>
-<div class="container">
-    {% block content %}{% endblock %}
+<div class="header">
+    <div class='container'>
+        <div class="header-line">
+            <a class="header-logo" href="/admin">
+                <svg width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.026 1.17739H5.57713C5.00358 0.460031 4.1215 0 3.13145 0C1.40186 0 0 1.40186 0 3.13145C0 4.86105 1.40186 6.26291 3.13145 6.26291C4.1215 6.26291 5.00358 5.80288 5.57756 5.08552H13.0264C17.4739 5.08552 21.0927 8.70389 21.0927 13.1519C21.0927 17.5994 17.4744 21.2182 13.0264 21.2182H5.57713C5.00316 20.5008 4.12108 20.0408 3.13103 20.0408C1.40186 20.0399 0 21.4418 0 23.1714C0 24.901 1.40186 26.3028 3.13145 26.3028C4.1215 26.3028 5.00358 25.8428 5.57756 25.1255H13.0264C19.629 25.1255 25.0004 19.754 25.0004 13.1514C25 6.54883 19.6286 1.17739 13.026 1.17739Z"
+                          fill="currentColor"/>
+                    <path d="M7.26449 15.1051H11.607C12.181 15.8224 13.0631 16.2824 14.0531 16.2824C15.7823 16.2824 17.1846 14.8806 17.1846 13.151C17.1846 11.4214 15.7827 10.0195 14.0531 10.0195C13.0631 10.0195 12.181 10.4796 11.607 11.1969H7.26449C6.18525 11.1969 5.31042 12.0717 5.31042 13.151C5.31085 14.2307 6.18525 15.1051 7.26449 15.1051Z"
+                          fill="currentColor"/>
+                </svg>
+                <a class="logo-text" href="{% url 'home' %}">DevOps</a>
+            </a>
+            <div class="nav">
+                <a class="nav-item" href="{% url 'home' %}">Главная</a>
+                <a class="nav-item" href="{% url 'demand' %}">Востребованность</a>
+                <a class="nav-item" href="{% url 'geo' %}">География</a>
+                <a class="nav-item" href="{% url 'skills' %}">Навыки</a>
+                <a class="nav-item" href="{% url 'last-vacs' %}">Последние вакансии</a>
+            </div>
+        </div>
+    </div>
 </div>
-
+<div class="text">
+    Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне.
+    Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.
+    В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов,
+    используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил
+    без заметных изменений пять веков, но и перешагнул в электронный дизайн.
+    Его популяризации в новое время послужили публикация листов Letraset с
+    образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной
+    вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.
+</div>
+<div class="footer">
+    <a class="footer-text" href="https://github.com/MateLR">Утенков Руслан Мехманович РИ-210940</a>
+</div>
 </body>
 </html>
