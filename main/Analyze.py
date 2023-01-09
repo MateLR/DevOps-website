@@ -1,5 +1,10 @@
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib as mpl
+import random
+import matplotlib.colors as mcolors
 
 
 # name,key_skills,salary_from,salary_to,salary_currency,area_name,published_at
@@ -35,6 +40,7 @@ class DataSet(object):
         df = pd.read_csv(self.file_path)
         df = df[df["salary"].notnull()]
         df["salary"] = df["salary"].apply(lambda x: int(x))
+        df = df[df["salary"] < 1000000000]
         df["published_at"] = df["published_at"].apply(lambda d: int(d[:4]))
         years = df["published_at"].unique()
         df_vacancy = df["name"].str.contains('|'.join(self.job_names))
@@ -91,14 +97,122 @@ class Report:
         env = Environment(loader=FileSystemLoader('.'))
         template = env.get_template("templates/analyze/demand_template.html")
         tables = self.analyze_to_rows_html()
-        # str_template = template.render(
-        #     {'name': self.dataset.job_name, 'headers1': tables[0], 'headers2': tables[1], 'rows1': tables[2],
-        #      'rows2': tables[3]}).dump('templates/main/demand2.html')
         template.stream(name=self.dataset.job_name, headers1=tables[0], headers2=tables[1], rows1=tables[2],
                         rows2=tables[3]).dump(
             'templates/main/demand2.html')
-        # with open("templates/main/demand2.html", "w") as file:
-        #     file.write(str_template)
+
+    @staticmethod
+    def rename_cities(s: str):
+        """Переиминовывает входные названия городов, добавляя перенос строки в названия городов, состоящие из двух слов
+        Args:
+            s (str): принимает на вход одну переменную типа string, название города
+        Returns:
+            str: Название города, если в нём был пробел или дефис, тогда будет с переносом строки
+        """
+        s = s.replace(' ', '\n')
+        s = s.replace('-', '-\n')
+        return s
+
+    def generate_image_salary_by_year(self):
+        fig, ax = plt.subplots()
+        labels = list(self.dataset.salary_by_years.keys())
+        average_salary = list(self.dataset.salary_by_years.values())
+        width = 0.6
+        x = np.arange(len(labels))
+        ax.bar(x - width / 2, average_salary, width, label='средняя з/п', edgecolor='#000000', color='#293133')
+        ax.set_xticks(x, labels, fontsize=12)
+        # ax.set_title('Динамика уровня зарплат по годам в IT', fontsize=16, fontweight='heavy')
+        ax.tick_params(axis='y', labelsize=12)
+        ax.tick_params(axis='x', labelrotation=90, labelsize=12)
+        ax.grid(axis='y')
+        ax.legend(fontsize=12)
+        fig.tight_layout()
+        fig.savefig('static/main/images/demand/salary_all.png', transparent=True)
+
+    def generate_image_salary_by_year_job(self):
+        fig, ax = plt.subplots()
+        labels = list(self.dataset.salary_by_years_job.keys())
+        average_salary = list(self.dataset.salary_by_years_job.values())
+        width = 0.6
+        x = np.arange(len(labels))
+        ax.bar(x - width / 2, average_salary, width, label='средняя з/п devops инженеров', edgecolor='#3d0000',
+               color='#ff0000')
+        ax.set_xticks(x, labels, fontsize=12)
+        # ax.set_title(f'Динамика уровня зарплат по годам для {self.dataset.job_name}', fontsize=16, fontweight='heavy')
+        ax.tick_params(axis='y', labelsize=12)
+        ax.tick_params(axis='x', labelrotation=90, labelsize=12)
+        ax.grid(axis='y')
+        ax.legend(fontsize=12)
+        fig.tight_layout()
+        fig.savefig('static/main/images/demand/salary_job.png', transparent=True)
+
+    def generate_image_number_by_year(self):
+        fig, ax = plt.subplots()
+        labels = list(self.dataset.number_by_years.keys())
+        average_salary = list(self.dataset.number_by_years.values())
+        width = 0.6
+        x = np.arange(len(labels))
+        ax.bar(x - width / 2, average_salary, width, label='количество вакансий', edgecolor='#000000', color='#293133')
+        ax.set_xticks(x, labels, fontsize=12)
+        # ax.set_title('Динамика уровня зарплат по годам в IT', fontsize=16, fontweight='heavy')
+        ax.tick_params(axis='y', labelsize=12)
+        ax.tick_params(axis='x', labelrotation=90, labelsize=12)
+        ax.grid(axis='y')
+        ax.legend(fontsize=12)
+        fig.tight_layout()
+        fig.savefig('static/main/images/demand/number_all.png', transparent=True)
+
+    def generate_image_number_by_year_job(self):
+        fig, ax = plt.subplots()
+        labels = list(self.dataset.number_by_years_job.keys())
+        average_salary = list(self.dataset.number_by_years_job.values())
+        width = 0.6
+        x = np.arange(len(labels))
+        ax.bar(x - width / 2, average_salary, width, label='количество вакансий devops инженеров', edgecolor='#3d0000',
+               color='#ff0000')
+        ax.set_xticks(x, labels, fontsize=12)
+        # ax.set_title(f'Динамика уровня зарплат по годам для {self.dataset.job_name}', fontsize=16, fontweight='heavy')
+        ax.tick_params(axis='y', labelsize=12)
+        ax.tick_params(axis='x', labelrotation=90, labelsize=12)
+        ax.grid(axis='y')
+        ax.legend(fontsize=12)
+        fig.tight_layout()
+        fig.savefig('static/main/images/demand/number_job.png', transparent=True)
+
+    def generate_image_salary_by_area(self):
+        fig, ax = plt.subplots()
+        cities_salary = [self.rename_cities(x) for x in self.dataset.salary_by_area.keys()]
+        salaries_city = list(self.dataset.salary_by_area.values())
+        y = np.arange(len(cities_salary))
+        ax.barh(y, salaries_city, align='center', edgecolor='#3d0000', color='#ff0000')
+        ax.set_yticks(y, labels=cities_salary)
+        ax.tick_params(axis='y', labelsize=12)
+        ax.tick_params(axis='x', labelsize=12)
+        ax.invert_yaxis()
+        # ax.set_title('Уровень зарплат по городам', fontsize=10)
+        ax.grid(axis='x')
+        fig.tight_layout()
+        fig.savefig('static/main/images/geo/salary.png', transparent=True, bbox_inches="tight")
+
+    def generate_image_shares_city(self):
+        cities_share =  list(self.dataset.share_number_by_area.keys()) + ["Другие"]
+        shares_city = list(self.dataset.share_number_by_area.values())
+        shares_city =  shares_city + [1 - sum(shares_city)]
+        fig, ax = plt.subplots()
+        colors = list(mcolors.CSS4_COLORS.values())[120:132]
+        #print(len(list(mcolors.CSS4_COLORS.values())))
+        ax.pie(shares_city, labels=cities_share, textprops={'fontsize': 12, 'fontweight': 'bold'}, startangle=0,
+               colors=colors)
+        fig.tight_layout()
+        fig.savefig('static/main/images/geo/number.png', transparent=True, bbox_inches="tight")
+
+    def generate_images(self):
+        self.generate_image_salary_by_year()
+        self.generate_image_salary_by_year_job()
+        self.generate_image_number_by_year()
+        self.generate_image_number_by_year_job()
+        self.generate_image_salary_by_area()
+        self.generate_image_shares_city()
 
 
-Report().generate_html()
+Report().generate_images()
