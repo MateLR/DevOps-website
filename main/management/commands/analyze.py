@@ -1,16 +1,7 @@
-import os
-import django
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib as mpl
-import random
-import matplotlib.colors as mcolors
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djangoDevOps.settings')
-django.setup()
-from main.models import VacanciesNumberAnalyze, VacanciesSalaryAnalyze
+from django.core.management.base import BaseCommand
+from main.models import VacanciesNumberAnalyze
 
 
 # name,key_skills,salary_from,salary_to,salary_currency,area_name,published_at
@@ -119,6 +110,10 @@ class Report:
         s = s.replace('-', '-\n')
         return s
 
+    def save_analyze(self):
+        for year, number in self.dataset.number_by_years.items():
+            VacanciesNumberAnalyze(year=year, number=number, ).save()
+
     def generate_image_salary_by_year(self):
         fig, ax = plt.subplots()
         labels = list(self.dataset.salary_by_years.keys())
@@ -220,15 +215,10 @@ class Report:
         self.generate_image_salary_by_area()
         self.generate_image_shares_city()
 
-    def save_analyze(self):
-        VacanciesNumberAnalyze.objects.all().delete()
-        VacanciesSalaryAnalyze.objects.all().delete()
-        for year, number in self.dataset.number_by_years.items():
-            VacanciesNumberAnalyze(year=year, number=number,
-                                   number_by_job=self.dataset.number_by_years_job[year]).save()
-        for year, salary in self.dataset.salary_by_years.items():
-            VacanciesSalaryAnalyze(year=year, salary=salary,
-                                   salary_by_job=self.dataset.salary_by_years_job[year]).save()
 
+class Command(BaseCommand):
+    help = 'Загрузка статистики'
 
-Report().save_analyze()
+    def handle(self, *args,**options):
+        r = Report()
+        r.save_analyze()

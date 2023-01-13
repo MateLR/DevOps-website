@@ -1,10 +1,13 @@
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
-    background-size:15%;
+    display: grid;
+}
+.header-container {
+    margin: 0px 200px;
 }
 .container {
-    margin: 0px 170px;
+    margin: 0px 16.5%;
 }
 
 .header {
@@ -17,7 +20,9 @@ body {
 svg {
     color : red;
     margin-right: 0;
-    text-decoration:none;
+}
+svg:hover {
+    color : #8c0000;
 }
 .header-line {
     padding-top: 10px;
@@ -26,11 +31,15 @@ svg {
     justify-content: space-around;
 }
 
+.header-down {
+    padding-top: 40px;
+}
+
 .logo-text {
     color: white;
     font-weight: 600;
     font-size: 16px;
-    margin-left: -200px;
+    margin-left: -15%;
     text-decoration: none;
 
 }
@@ -39,11 +48,11 @@ svg {
     text-decoration: none;
     font-size: 13px;
     margin-left: 90px;
-    transition: color 0.1s linear;
+    transition: color 0.1s linear ;
 }
-.text {
-    color:white;
-    font-size: 108px;
+.title {
+    font-size: 44px;
+    font-weight: 700;
 }
 .nav-item:hover {
     color: red;
@@ -51,11 +60,13 @@ svg {
 
 .footer {
     width: 100%;
-    position: absolute;
+    position:relative;
     background-color: rgba(0, 0, 0, 0.85);
     padding: 25px 0px;
     backdrop-filter: blur(10px);
     text-align: center;
+    bottom: 0;
+    margin-top: 100px;
 }
 .footer-text {
     text-decoration: none;
@@ -67,3 +78,67 @@ svg {
     font-weight: 600;
     color: red;
 }
+h1 {
+    font-size: 44px;
+    font-weight: 700;
+    margin-top: 75px;
+}
+h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 50px;
+}
+ul {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 150%;
+}
+.devops{
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+}
+text {
+    color: #000000;
+    text-indent: 25px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 150%;
+}
+.devops text {
+    width: 1050px;
+}
+.devops h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 50px 20px 30px 80px;
+}
+.devops h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 50px 100px 30px 150px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+caption {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+td, th {
+    padding: 10px;
+    border: 1px solid #000000;
+    text-align: center;
+}
+
+td:nth-child(3),
+th:nth-child(3){
+    border: none;
+    color: white;
+    user-select: none;
+}
+

@@ -1,2 +1,3 @@
 from django import forms
-from .models import Vacancy
+from .models import VacanciesNumberAnalyze
+from . import Analyze

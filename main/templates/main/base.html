@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="header">
-    <div class='container'>
+    <div class='header-container'>
         <div class="header-line">
             <a class="header-logo" href="/admin">
                 <svg width="25" height="27" viewBox="0 0 25 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,15 +31,11 @@
         </div>
     </div>
 </div>
-<div class="text">
-    Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне.
-    Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.
-    В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов,
-    используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил
-    без заметных изменений пять веков, но и перешагнул в электронный дизайн.
-    Его популяризации в новое время послужили публикация листов Letraset с
-    образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной
-    вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.
+<div class="header-down">
+    <div class="container">
+        {% block content %}{% endblock %}
+        <div class="text"></div>
+    </div>
 </div>
 <div class="footer">
     <a class="footer-text" href="https://github.com/MateLR">Утенков Руслан Мехманович РИ-210940</a>

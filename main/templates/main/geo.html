@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    География
+{% endblock %}
+{% load  static %}
+{% block css %}
+    <link rel='stylesheet' href="{% static 'main/css/stylesheet.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Анализ географии вакансий в сфере IT</h1>
+    <div class="devops">
+    <h2>Уровень зарплат по городам</h2>
+    <h2>Доля вакансий по городам</h2>
+    </div>
+    <div class="devops">
+    {% block images %}
+    <img src="{% static 'main/images/geo/salary.png' %}" width="540px" alt="Уровень зарплат по городам">
+    <img src="{% static 'main/images/geo/number.png' %}" width="540px" alt="Доля вакансий по городам">
+    </div>
+{% endblock %}
+{% endblock %}
