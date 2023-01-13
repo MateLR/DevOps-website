@@ -26,3 +26,39 @@ class VacanciesSalaryAnalyze(models.Model):
     class Meta:
         verbose_name = 'Статистика за год'
         verbose_name_plural = 'Динамика уровня зарплат по годам'
+
+
+class AreaSalaryAnalyze(models.Model):
+    area = models.TextField('Название города')
+    salary = models.PositiveIntegerField('Средняя зарплата')
+
+    def __str__(self):
+        return f'Средняя зарплата в городе {self.area}'
+
+    class Meta:
+        verbose_name = 'Статистика'
+        verbose_name_plural = 'Динамика уровня зарплат по городам'
+
+
+class AreaNumberAnalyze(models.Model):
+    area = models.TextField('Название города')
+    stake = models.DecimalField('Доля', max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return f'Доля всех вакансий в городе {self.area}'
+
+    class Meta:
+        verbose_name = 'Статистика'
+        verbose_name_plural = 'Динамика количества вакансий по городам'
+
+
+class SkillsAnalyze(models.Model):
+    year = models.PositiveIntegerField('Год')
+    skills = models.TextField('Топ-10 навыков')
+
+    def __str__(self):
+        return f'Топ навыков за {self.year}г.'
+
+    class Meta:
+        verbose_name = 'Статистика за год'
+        verbose_name_plural = 'Динамика самых встречаемых навыков по годам'

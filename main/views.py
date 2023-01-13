@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import VacanciesNumberAnalyze,VacanciesSalaryAnalyze
+from .models import VacanciesNumberAnalyze, VacanciesSalaryAnalyze, SkillsAnalyze, AreaNumberAnalyze, AreaSalaryAnalyze
 
 
 def index(request):
@@ -14,4 +14,11 @@ def demand(request):
 
 
 def geo(request):
-    return render(request, 'main/geo.html')
+    share_number_stat = AreaNumberAnalyze.objects.all()
+    salary_stat = AreaSalaryAnalyze.objects.all()
+    return render(request, 'main/geo.html', {'salary_stat': salary_stat, 'share_number_stat': share_number_stat})
+
+
+def skills(request):
+    skills_stat = SkillsAnalyze.objects.all()
+    return render(request, 'main/skills.html', {'skills_stat': skills_stat})

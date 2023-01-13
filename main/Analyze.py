@@ -7,10 +7,7 @@ import numpy as np
 import matplotlib as mpl
 import random
 import matplotlib.colors as mcolors
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djangoDevOps.settings')
-django.setup()
-from main.models import VacanciesNumberAnalyze, VacanciesSalaryAnalyze
+from collections import Counter
 
 
 # name,key_skills,salary_from,salary_to,salary_currency,area_name,published_at
@@ -40,6 +37,7 @@ class DataSet(object):
         self.number_by_years_job = dict()
         self.salary_by_area = dict()
         self.share_number_by_area = dict()
+        self.skills = dict()
         self.analyze()
 
     def analyze(self):
@@ -50,6 +48,7 @@ class DataSet(object):
         df["published_at"] = df["published_at"].apply(lambda d: int(d[:4]))
         years = df["published_at"].unique()
         df_vacancy = df["name"].str.contains('|'.join(self.job_names))
+        df_skills = df["key_skills"].notnull()
 
         for year in years:
             filter_by_year = df["published_at"] == year
@@ -59,6 +58,14 @@ class DataSet(object):
                 df[df_vacancy & filter_by_year]["salary"].mean() if df[df_vacancy & filter_by_year][
                     "salary"].any() else 0)
             self.number_by_years_job[year] = len(df[df_vacancy & filter_by_year])
+            c = Counter()
+            if df[df_vacancy & filter_by_year & df_skills]["key_skills"].any():
+                pd.Series(df[df_vacancy & filter_by_year & df_skills]["key_skills"]).str.split('\n').apply(c.update)
+            if len(c) != 0:
+                count_job_skills = len(df[df_vacancy & filter_by_year & df_skills])
+                self.skills[year] = ', '.join(
+                    [f'{k} ({int(round(v / count_job_skills, 2) * 100)}%)' for k, v in
+                     sorted(list(c.items()), key=lambda tup: tup[1], reverse=True)][:10])
 
         count = len(df)
         df["count"] = df.groupby("area_name")["area_name"].transform("count")
@@ -221,14 +228,28 @@ class Report:
         self.generate_image_shares_city()
 
     def save_analyze(self):
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djangoDevOps.settings')
+        django.setup()
+        from main.models import VacanciesNumberAnalyze, VacanciesSalaryAnalyze, SkillsAnalyze, AreaSalaryAnalyze, \
+            AreaNumberAnalyze
         VacanciesNumberAnalyze.objects.all().delete()
         VacanciesSalaryAnalyze.objects.all().delete()
+        SkillsAnalyze.objects.all().delete()
+        AreaSalaryAnalyze.objects.all().delete()
+        AreaNumberAnalyze.objects.all().delete()
+
         for year, number in self.dataset.number_by_years.items():
             VacanciesNumberAnalyze(year=year, number=number,
                                    number_by_job=self.dataset.number_by_years_job[year]).save()
         for year, salary in self.dataset.salary_by_years.items():
             VacanciesSalaryAnalyze(year=year, salary=salary,
                                    salary_by_job=self.dataset.salary_by_years_job[year]).save()
+        for year, skills in self.dataset.skills.items():
+            SkillsAnalyze(year=year, skills=skills).save()
+        for area, salary in self.dataset.salary_by_area.items():
+            AreaSalaryAnalyze(area=area, salary=salary).save()
+        for area, stake in self.dataset.share_number_by_area.items():
+            AreaNumberAnalyze(area=area, stake=round(stake, 4)*100).save()
 
 
 Report().save_analyze()

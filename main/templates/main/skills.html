@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Навыки
+{% endblock %}
+{% load  static %}
+{% block css %}
+    <link rel='stylesheet' href="{% static 'main/css/stylesheet.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Самые востребованные навыки</h1>
+    <h2>ТОП-10 навыков по годам для Devops-инженера</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Год</th>
+                <th>Топ 10 навыков по появлению в вакансиях (Процент появления)</th>
+            </tr>
+        </thead>
+        {% for row in skills_stat %}
+        <tr>
+            <td>{{ row.year }}</td>
+            <td>{{ row.skills }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+

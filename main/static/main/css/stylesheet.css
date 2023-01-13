@@ -141,4 +141,7 @@ th:nth-child(3){
     color: white;
     user-select: none;
 }
+.devops table{
+    width: 40%;
+}
 
