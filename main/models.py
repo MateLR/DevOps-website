@@ -62,3 +62,20 @@ class SkillsAnalyze(models.Model):
     class Meta:
         verbose_name = 'Статистика за год'
         verbose_name_plural = 'Динамика самых встречаемых навыков по годам'
+
+
+class Vacancy(models.Model):
+    name = models.TextField('Название вакансии')
+    description = models.TextField('Описание')
+    skills = models.TextField('Навыки')
+    employer = models.TextField('Навыки')
+    salary = models.TextField('Навыки')
+    area = models.TextField('Навыки')
+    date = models.DateTimeField('Дата публикации')
+
+    def __str__(self):
+        return f'{self.name} - {self.date}'
+
+    class Meta:
+        verbose_name = 'Вакансия'
+        verbose_name_plural = 'Вакансии'

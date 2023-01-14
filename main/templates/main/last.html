@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Навыки
+{% endblock %}
+{% load  static %}
+{% block css %}
+    <link rel='stylesheet' href="{% static 'main/css/stylesheet.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Последние вакансии</h1>
+    <h2>Вакансии за 12 декабря 2022</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Название вакансии</th>
+                <th>Описание вакансии</th>
+                <th>Навыки</th>
+                <th>Компания</th>
+                <th>Оклад</th>
+                <th>Название региона</th>
+                <th>Дата публикации вакансии</th>
+            </tr>
+        </thead>
+        {% for vacancy in vacancies %}
+        <tr>
+            <td>{{ vacancy.name}}</td>
+            <td>{{ vacancy.description}}</td>
+            <td>{{ vacancy.skills}}</td>
+            <td>{{ vacancy.employer}}</td>
+            <td>{{ vacancy.salary}}</td>
+            <td>{{ vacancy.area}}</td>
+            <td>{{ vacancy.date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+

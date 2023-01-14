@@ -135,11 +135,18 @@ td, th {
     text-align: center;
 }
 
-td:nth-child(3),
-th:nth-child(3){
+.vacancies td:nth-child(3){
     border: none;
     color: white;
     user-select: none;
+}
+.vacancies th:nth-child(3) {
+    border: none;
+    color: white;
+    user-select: none;
+}
+.vacancies{
+    margin-top: 50px;
 }
 .devops table{
     width: 40%;

@@ -6,5 +6,5 @@ urlpatterns = [
     path('Demand', views.demand, name='demand'),
     path('Geography', views.geo, name='geo'),
     path('Skills', views.skills, name='skills'),
-    path('Last-vacancies', views.demand, name='last-vacs')
+    path('Last-vacancies', views.last, name='last-vacs')
 ]
