@@ -57,8 +57,7 @@ class VacancyObj:
 
     @staticmethod
     def numbers_space(x):
-        x = str(x)
-        return ' '.join([x[i:i + 3] for i in range(0, len(x), 3)])
+        return '{:,}'.format(x).replace(',', ' ')
 
     @staticmethod
     def change_string(s):

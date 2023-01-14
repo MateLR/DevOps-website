@@ -27,7 +27,7 @@ def skills(request):
 
 
 def last(request):
-    date = '2022-12-12'
+    date = '2022-12-19'
     Vacancy.objects.all().delete()
     rows = Processing(date).to_rows()
     for row in rows:
