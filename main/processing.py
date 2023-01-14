@@ -52,7 +52,7 @@ class VacancyObj:
     def salary_to_string(self, salary):
         salary_from = f'от {self.numbers_space(salary["from"])} ' if salary["from"] is not None else ''
         salary_to = f'до {self.numbers_space(salary["to"])}' if salary["to"] is not None else ''
-        salary_gross = 'С вычетом налогов' if salary["gross"] else 'Без вычета налогов'
+        salary_gross = 'Без вычета налогов' if salary["gross"] else 'С вычетом налогов'
         return f'{salary_from}{salary_to} ({currency[salary["currency"]]}) ({salary_gross})'
 
     @staticmethod
